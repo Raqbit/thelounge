@@ -153,6 +153,22 @@ function addFocusItem() {
 	});
 }
 
+function addEditNetworkItem() {
+	function edit(itemData) {
+		socket.emit("network:get", itemData);
+		$("#connect").text("Loading");
+		$('button[data-target="#connect"]').click();
+	}
+
+	addContextMenuItem({
+		check: (target) => target.hasClass("lobby"),
+		className: "edit",
+		displayName: "Edit this network…",
+		data: (target) => target.closest(".network").data("uuid"),
+		callback: edit,
+	});
+}
+
 function addChannelListItem() {
 	function list(itemData) {
 		socket.emit("input", {
@@ -207,6 +223,7 @@ function addDefaultItems() {
 	addQueryItem();
 	addKickItem();
 	addFocusItem();
+	addEditNetworkItem();
 	addChannelListItem();
 	addBanListItem();
 	addJoinItem();
